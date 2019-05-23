@@ -1,6 +1,6 @@
 import React from 'react';
 import FlipCard from '../components/FlipCard'
-import {Grid, Image} from 'semantic-ui-react'
+import {Grid} from 'semantic-ui-react'
 
 const pokemon = [
   'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/bulbasaur.png',
@@ -15,7 +15,7 @@ function createGrid(numColumns, images){
   return(
     <Grid container columns={numColumns}>
       {images.map(img=>(
-        <Grid.Column key={img}>
+        <Grid.Column>
            <FlipCard image={img} />
         </Grid.Column>
       ))}
