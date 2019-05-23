@@ -1,12 +1,24 @@
 import React from 'react';
+import Menu from './components/Menu'
+import CardContainer from './containers/CardContainer'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(){
+    super()
+
+    this.state = {}
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <Menu />
+        <CardContainer />
+      </div>
+    );
+  }
+
 }
 
 export default App;
