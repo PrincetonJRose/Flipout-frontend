@@ -29,7 +29,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Menu />
-        <CardContainer />
+        <CardContainer images={this.state.pokemonPics}/>
       </div>
     );
   }
