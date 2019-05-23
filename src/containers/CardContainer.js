@@ -1,15 +1,31 @@
 import React from 'react';
-import Card from '../components/Card'
+import FlipCard from '../components/FlipCard'
 import {Grid} from 'semantic-ui-react'
 
-function CardContainer(){
+const pokemon = [
+  'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/bulbasaur.png',
+  'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/charmander.png',
+  'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/bulbasaur.png',
+  'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/charmander.png',
+  'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/squirtle.png',
+  'https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/squirtle.png',
+]
+
+function createGrid(numColumns, images){
   return(
-    <Grid>
-    <div className="four wide column"><Card /></div>
-    <div className="four wide column"><Card /></div>
-    <div className="four wide column"><Card /></div>
-    <div className="four wide column"><Card /></div>
+    <Grid container columns={numColumns}>
+      {images.map(img=>(
+        <Grid.Column>
+           <FlipCard image={img} />
+        </Grid.Column>
+      ))}
     </Grid>
+  )
+}
+
+function CardContainer(props){
+  return(
+    createGrid(3, pokemon)
   )
 }
 
