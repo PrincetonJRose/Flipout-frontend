@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './Card'
+import FlipCard from './FlipCard'
 import { Grid } from 'semantic-ui-react'
 
 class Menu extends React.Component {
