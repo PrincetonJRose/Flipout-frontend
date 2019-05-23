@@ -1,8 +1,7 @@
 import React from 'react';
 import Menu from './components/Menu'
 import Stats from './components/Stats'
-import Card from './components/Card'
-import Card from './containers/CardContainer'
+import CardContainer from './containers/CardContainer'
 import './App.css';
 
 class App extends React.Component {
@@ -16,6 +15,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header"></header>
+        <Menu />
+        <CardContainer />
       </div>
     );
   }
