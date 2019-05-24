@@ -20,16 +20,14 @@ export default class FlipCard extends Component {
     return (
       <Container>
         <div class="flip-card">
-          {/* <div class="flip-card-inner"> */}
-            <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal">
-                <div class="flip-card-front" onClick={this.handleClick} key="front">
-                  <Image src='../images/darkPokeBall.png' size='small' />
-                </div>
-                <div class="flip-card-back" onClick={this.handleClick} key="back">
-                  <Image src={this.props.image} wrapped />
-                </div>
-            </ReactCardFlip>
-          {/* </div> */}
+          <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal">
+            <div class="flip-card-front" onClick={this.handleClick} key="front">
+              <Image src='../images/darkPokeBall.png' size='small' />
+            </div>
+            <div class="flip-card-back" onClick={this.handleClick} key="back">
+              <Image src={this.props.image} wrapped />
+            </div>
+          </ReactCardFlip>
         </div>
       </Container>
     )
