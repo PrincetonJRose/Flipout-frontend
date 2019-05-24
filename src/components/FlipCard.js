@@ -7,7 +7,7 @@ function FlipCard(props){
       <div class="flip-card">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <Image src='../images/lightPokeBall.png' size='small' />
+            <Image src='../images/darkPokeBall.png' size='small' />
           </div>
           <div class="flip-card-back">
             <Image src={props.image} wrapped />
