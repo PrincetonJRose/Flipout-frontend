@@ -2,21 +2,15 @@ import React from 'react';
 import FlipCard from '../components/FlipCard'
 import {Grid} from 'semantic-ui-react'
 
-function createGrid(numColumns, pokemon, turnOver, checkTurnOver){
+function CardContainer(props){
   return(
-    <Grid container columns={numColumns}>
-      {pokemon.map( pm =>(
+    <Grid container columns={props.numColumns}>
+      {props.pokemon.map( pm =>(
         <Grid.Column>
-          <FlipCard pokemon={pm} turnOver={turnOver} checkTurnOver={checkTurnOver}/>
+          <FlipCard pokemon={pm} flipCard={props.flipCard} checkTurnOver={props.checkTurnOver} turnOver={props.turnOver}/>
         </Grid.Column>
       ))}
     </Grid>
-  )
-}
-
-function CardContainer(props){
-  return(
-    createGrid(8, props.pokemon, props.turnOver, props.checkTurnOver)
   )
 }
 
