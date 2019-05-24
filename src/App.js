@@ -30,26 +30,42 @@ class App extends React.Component {
   checkTurnOver =()=> {
     if (this.state.turnOver < 2) {
       this.setState({
-        turnOver: this.state.turnOver += 1
+        turnOver: this.state.turnOver + 1
       })
-      console.log(this.state.turnOver)
-    } else if (this.state.turnOver === 2) {
-      console.log(this.state.turnOver)
-      setTimeout( this.resetTurnOver, 300)
+    }
+    if (this.state.turnOver === 2) {
+      setTimeout( this.resetTurnOver, 3000)
     }
   }
 
   resetTurnOver =()=> {
-    this.setState({
-      turnOver: 0
+    let flipAll = this.state.pokemon.map( pokemon => {
+      pokemon.isFlipped = false
+      return pokemon
     })
+    this.setState({
+      turnOver: 0,
+      pokemon: flipAll
+    })
+  }
+
+  flipCard =(pokemonFlip)=> {
+    let flip = this.state.pokemon.map( pokemon => {
+      if (pokemon.id === pokemonFlip.id) {
+        pokemon.isFlipped = true
+        return pokemon
+      } else {
+        return pokemon
+      }
+    })
+    this.setState({ pokemon: flip })
   }
 
   render(){
     return (
       <div className="App">
         <Nav />
-        <CardContainer pokemon={this.state.pokemon} turnOver={this.state.turnOver} checkTurnOver={this.checkTurnOver}/>
+        <CardContainer pokemon={this.state.pokemon} flipCard={this.flipCard} checkTurnOver={this.checkTurnOver}/>
       </div>
     );
   }
