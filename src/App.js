@@ -9,6 +9,7 @@ class App extends React.Component {
     super()
     this.state = {
       pokemon: [],
+      turnOver: 0,
     }
   }
 
@@ -16,15 +17,39 @@ class App extends React.Component {
     fetch(pokeURL)
     .then(res => res.json())
     .then(pokemonData => {
-      this.setState({ pokemon: pokemonData })
+      let addFlipped = pokemonData.map( pokemon => {
+        return {...pokemon, isFlipped: false}
+      })
+      let addMatched = addFlipped.map( pokemon => {
+        return {...pokemon, isMatched: false}
+      })
+      this.setState({ pokemon: addMatched })
     })
   }
-  
+
+  checkTurnOver =()=> {
+    if (this.state.turnOver < 2) {
+      this.setState({
+        turnOver: this.state.turnOver += 1
+      })
+      console.log(this.state.turnOver)
+    } else if (this.state.turnOver === 2) {
+      console.log(this.state.turnOver)
+      setTimeout( this.resetTurnOver, 300)
+    }
+  }
+
+  resetTurnOver =()=> {
+    this.setState({
+      turnOver: 0
+    })
+  }
+
   render(){
     return (
       <div className="App">
         <Nav />
-        <CardContainer pokemon={this.state.pokemon}/>
+        <CardContainer pokemon={this.state.pokemon} turnOver={this.state.turnOver} checkTurnOver={this.checkTurnOver}/>
       </div>
     );
   }
