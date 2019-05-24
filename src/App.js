@@ -1,8 +1,8 @@
 import React from 'react';
-import Menu from './components/Menu'
+import Nav from './components/Nav'
 import { Rating } from 'semantic-ui-react'
 import CardContainer from './containers/CardContainer'
-import './App.css';
+import './App.css'
 const pokeURL = `http://localhost:3000/pokemon/`
 
 class App extends React.Component {
@@ -29,7 +29,7 @@ class App extends React.Component {
   render(){
     return (
       <div className="App">
-        <Menu />
+        <Nav />
         <CardContainer images={this.state.pokemonPics}/>
       </div>
     );
