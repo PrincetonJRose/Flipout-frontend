@@ -15,21 +15,19 @@ export default class FlipCard extends Component {
     e.preventDefault();
     this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
   }
-  
+
   render () {
     return (
       <Container>
-        <div class="flip-card">
-          {/* <div class="flip-card-inner"> */}
+        <div className="flip-card">
             <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal">
-                <div class="flip-card-front" onClick={this.handleClick} key="front">
+                <div className="flip-card-front" onClick={this.handleClick} key="front">
                   <Image src='../images/darkPokeBall.png' size='small' />
                 </div>
-                <div class="flip-card-back" onClick={this.handleClick} key="back">
+                <div className="flip-card-back" onClick={this.handleClick} key="back">
                   <Image src={this.props.image} wrapped />
                 </div>
             </ReactCardFlip>
-          {/* </div> */}
         </div>
       </Container>
     )
