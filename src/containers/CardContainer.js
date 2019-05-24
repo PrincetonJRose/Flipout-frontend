@@ -2,12 +2,12 @@ import React from 'react';
 import FlipCard from '../components/FlipCard'
 import {Grid} from 'semantic-ui-react'
 
-function createGrid(numColumns, images){
+function createGrid(numColumns, pokemon){
   return(
     <Grid container columns={numColumns}>
-      {images.map(img=>(
+      {pokemon.map( pm =>(
         <Grid.Column>
-          <FlipCard image={img} />
+          <FlipCard pokemon={pm} />
         </Grid.Column>
       ))}
     </Grid>
@@ -16,7 +16,7 @@ function createGrid(numColumns, images){
 
 function CardContainer(props){
   return(
-    createGrid(8, props.images)
+    createGrid(8, props.pokemon)
   )
 }
 

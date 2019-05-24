@@ -15,7 +15,7 @@ export default class FlipCard extends Component {
     e.preventDefault();
     this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
   }
-
+  
   render () {
     return (
       <Container>
@@ -25,7 +25,7 @@ export default class FlipCard extends Component {
               <Image src='../images/darkPokeBall.png' size='small' />
             </div>
             <div class="flip-card-back" onClick={this.handleClick} key="back">
-              <Image src={this.props.image} wrapped />
+              <Image src={this.props.pokemon.sprites.front} wrapped />
             </div>
           </ReactCardFlip>
         </div>

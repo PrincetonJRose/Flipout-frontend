@@ -9,7 +9,6 @@ class App extends React.Component {
     super()
     this.state = {
       pokemon: [],
-      pokemonPics: []
     }
   }
 
@@ -18,18 +17,14 @@ class App extends React.Component {
     .then(res => res.json())
     .then(pokemonData => {
       this.setState({ pokemon: pokemonData })
-      let pics = this.state.pokemon.map( pokemon => {
-        return pokemon.sprites.front
-      })
-      this.setState({ pokemonPics: pics})
     })
   }
-
+  
   render(){
     return (
       <div className="App">
         <Nav />
-        <CardContainer images={this.state.pokemonPics}/>
+        <CardContainer pokemon={this.state.pokemon}/>
       </div>
     );
   }
