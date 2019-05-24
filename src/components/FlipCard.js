@@ -8,10 +8,9 @@ export default class FlipCard extends Component {
   }
 
   handleClick =(e)=> {
-    e.preventDefault();
-    if (this.props.pokemon.isFlipped === false) {
-    
-    this.props.checkTurnOver()
+    e.preventDefault()
+    if (this.props.pokemon.isFlipped === false && this.props.turnOver < 2) {
+    this.props.flipCard(this.props.pokemon)
     }
   }
   

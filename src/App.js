@@ -10,6 +10,7 @@ class App extends React.Component {
     this.state = {
       pokemon: [],
       turnOver: 0,
+      numColumns: 8,
     }
   }
 
@@ -29,12 +30,15 @@ class App extends React.Component {
 
   checkTurnOver =()=> {
     if (this.state.turnOver < 2) {
+      if (this.state.turnOver + 1 == 2) {
+        setTimeout( this.resetTurnOver, 2000)
+      }
       this.setState({
         turnOver: this.state.turnOver + 1
       })
     }
     if (this.state.turnOver === 2) {
-      setTimeout( this.resetTurnOver, 3000)
+      setTimeout( this.resetTurnOver, 2000)
     }
   }
 
@@ -59,13 +63,14 @@ class App extends React.Component {
       }
     })
     this.setState({ pokemon: flip })
+    this.checkTurnOver()
   }
 
   render(){
     return (
       <div className="App">
         <Nav />
-        <CardContainer pokemon={this.state.pokemon} flipCard={this.flipCard} checkTurnOver={this.checkTurnOver}/>
+        <CardContainer pokemon={this.state.pokemon} flipCard={this.flipCard} checkTurnOver={this.checkTurnOver} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
       </div>
     );
   }
