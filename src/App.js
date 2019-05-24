@@ -10,12 +10,8 @@ class App extends React.Component {
     super()
     this.state = {
       pokemon: [],
-<<<<<<< HEAD
-      pokemonPics: []
-=======
       turnOver: 0,
       numColumns: 8,
->>>>>>> 097714c40a705175f61f02f7ba15b5cc6436ee82
     }
   }
 
@@ -27,9 +23,6 @@ class App extends React.Component {
       let pics = this.state.pokemon.map( pokemon => {
         return pokemon.sprites.front
       })
-<<<<<<< HEAD
-      this.setState({ pokemonPics: pics})
-=======
       let addMatched = addFlipped.map( pokemon => {
         return {...pokemon, isMatched: false}
       })
@@ -70,7 +63,6 @@ class App extends React.Component {
       } else {
         return pokemon
       }
->>>>>>> 097714c40a705175f61f02f7ba15b5cc6436ee82
     })
     this.setState({ pokemon: flip })
     this.checkTurnOver()
@@ -80,11 +72,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Nav />
-<<<<<<< HEAD
-        <CardContainer images={this.state.pokemonPics}/>
-=======
         <CardContainer pokemon={this.state.pokemon} flipCard={this.flipCard} checkTurnOver={this.checkTurnOver} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
->>>>>>> 097714c40a705175f61f02f7ba15b5cc6436ee82
       </div>
     );
   }
