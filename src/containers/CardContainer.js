@@ -7,7 +7,7 @@ function createGrid(numColumns, images){
     <Grid container columns={numColumns}>
       {images.map(img=>(
         <Grid.Column>
-           <FlipCard image={img} />
+          <FlipCard image={img} />
         </Grid.Column>
       ))}
     </Grid>

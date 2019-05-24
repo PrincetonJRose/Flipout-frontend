@@ -1,5 +1,6 @@
 import React from 'react';
 import Menu from './components/Menu'
+import { Rating } from 'semantic-ui-react'
 import CardContainer from './containers/CardContainer'
 import './App.css';
 const pokeURL = `http://localhost:3000/pokemon/`
