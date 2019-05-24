@@ -13,7 +13,7 @@ export default class FlipCard extends Component {
     this.props.flipCard(this.props.pokemon)
     }
   }
-  
+
   render () {
     return (
       <Container>
@@ -22,7 +22,7 @@ export default class FlipCard extends Component {
             <div class="flip-card-front" onClick={this.handleClick} key="front">
               <Image src='../images/darkPokeBall.png' size='small' />
             </div>
-            <div class="flip-card-back" onClick={this.handleClick} key="back">
+            <div className="flip-card-back" onClick={this.handleClick} key="back">
               <Image src={this.props.pokemon.sprites.front} wrapped />
             </div>
           </ReactCardFlip>
