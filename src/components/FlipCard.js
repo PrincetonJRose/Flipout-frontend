@@ -5,23 +5,21 @@ import ReactCardFlip from 'react-card-flip'
 export default class FlipCard extends Component {
   constructor() {
     super()
-    this.state = {
-      isFlipped: false
-    };
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+  handleClick =(e)=> {
+    e.preventDefault()
+    if (this.props.pokemon.isFlipped === false && this.props.turnOver < 2) {
+    this.props.flipCard(this.props.pokemon)
+    }
   }
 
   render () {
     return (
       <Container>
-        <div className="flip-card">
-          <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal">
-            <div className="flip-card-front" onClick={this.handleClick} key="front">
+        <div class="flip-card">
+          <ReactCardFlip isFlipped={this.props.pokemon.isFlipped} flipDirection="horizontal">
+            <div class="flip-card-front" onClick={this.handleClick} key="front">
               <Image src='../images/darkPokeBall.png' size='small' />
             </div>
             <div className="flip-card-back" onClick={this.handleClick} key="back">
