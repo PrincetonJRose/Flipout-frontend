@@ -11,6 +11,7 @@ class App extends React.Component {
       pokemon: [],
       turnOver: 0,
       numColumns: 8,
+      compare: [],
     }
   }
 
@@ -38,7 +39,7 @@ class App extends React.Component {
       })
     }
     if (this.state.turnOver === 2) {
-      setTimeout( this.resetTurnOver, 2000)
+      setTimeout( this.resetTurnOver, 1800)
     }
   }
 
