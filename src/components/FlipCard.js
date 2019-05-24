@@ -15,7 +15,7 @@ export default class FlipCard extends Component {
     e.preventDefault();
     this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
   }
-  
+
   render () {
     return (
       <Container>
