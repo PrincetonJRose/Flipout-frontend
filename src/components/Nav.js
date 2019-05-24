@@ -16,6 +16,11 @@ class Nav extends Component {
           New Game
         </Menu.Item>
 
+        <Menu.Item name='gamepad' active={activeItem === 'gamepad'} onClick={this.handleItemClick}>
+          <Icon name='gamepad' />
+          Current Game
+        </Menu.Item>
+
         <Menu.Item
           name='trophy'
           active={activeItem === 'trophy'}
