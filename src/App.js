@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from './components/Nav'
+import { Rating } from 'semantic-ui-react'
 import CardContainer from './containers/CardContainer'
 import './App.css'
 const pokeURL = `http://localhost:3000/pokemon/`
@@ -9,7 +10,7 @@ class App extends React.Component {
     super()
     this.state = {
       pokemon: [],
-      turnOver: 0,
+      pokemonPics: []
     }
   }
 
@@ -17,31 +18,11 @@ class App extends React.Component {
     fetch(pokeURL)
     .then(res => res.json())
     .then(pokemonData => {
-      let addFlipped = pokemonData.map( pokemon => {
-        return {...pokemon, isFlipped: false}
+      this.setState({ pokemon: pokemonData })
+      let pics = this.state.pokemon.map( pokemon => {
+        return pokemon.sprites.front
       })
-      let addMatched = addFlipped.map( pokemon => {
-        return {...pokemon, isMatched: false}
-      })
-      this.setState({ pokemon: addMatched })
-    })
-  }
-
-  checkTurnOver =()=> {
-    if (this.state.turnOver < 2) {
-      this.setState({
-        turnOver: this.state.turnOver += 1
-      })
-      console.log(this.state.turnOver)
-    } else if (this.state.turnOver === 2) {
-      console.log(this.state.turnOver)
-      setTimeout( this.resetTurnOver, 300)
-    }
-  }
-
-  resetTurnOver =()=> {
-    this.setState({
-      turnOver: 0
+      this.setState({ pokemonPics: pics})
     })
   }
 
@@ -49,7 +30,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Nav />
-        <CardContainer pokemon={this.state.pokemon} turnOver={this.state.turnOver} checkTurnOver={this.checkTurnOver}/>
+        <CardContainer images={this.state.pokemonPics}/>
       </div>
     );
   }
