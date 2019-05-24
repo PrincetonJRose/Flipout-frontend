@@ -1,6 +1,5 @@
 import React from 'react';
 import Nav from './components/Nav'
-import { Rating } from 'semantic-ui-react'
 import CardContainer from './containers/CardContainer'
 import './App.css'
 const pokeURL = `http://localhost:3000/pokemon/`
@@ -20,9 +19,8 @@ class App extends React.Component {
     fetch(pokeURL)
     .then(res => res.json())
     .then(pokemonData => {
-      this.setState({ pokemon: pokemonData })
-      let pics = this.state.pokemon.map( pokemon => {
-        return pokemon.sprites.front
+      let addFlipped = pokemonData.map( pokemon => {
+        return {...pokemon, isFlipped: false}
       })
       let addMatched = addFlipped.map( pokemon => {
         return {...pokemon, isMatched: false}
