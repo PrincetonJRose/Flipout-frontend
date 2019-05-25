@@ -124,7 +124,6 @@ export default class App extends React.Component {
     for (let i = 0; i < this.state.cardTotal; i++) {
       randomSelection.push(false)
     }
-    console.log(randomSelection.length)
     for (let i = 0; i < (this.state.cardTotal/2); i++) {
       let randomIndex = Math.round(Math.random() * this.state.pokemon.length)
       let randomPosition 
