@@ -121,10 +121,29 @@ export default class App extends React.Component {
 
   generateBoard =()=> {
     let randomSelection = []
+    for (let i = 0; i < this.state.cardTotal; i++) {
+      randomSelection.push(false)
+    }
+    console.log(randomSelection.length)
     for (let i = 0; i < (this.state.cardTotal/2); i++) {
       let randomIndex = Math.round(Math.random() * this.state.pokemon.length)
-      randomSelection.push(this.state.pokemon[randomIndex])
-      randomSelection.push(this.state.pokemon[randomIndex])
+      let randomPosition 
+      while (true) {
+        randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
+        if (randomSelection[randomPosition] == false) {
+          console.log("card 1", randomPosition)
+          randomSelection.splice(randomPosition, 1, this.state.pokemon[randomIndex])
+          break
+        }
+      }
+      while (true) {
+        randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
+        if (randomSelection[randomPosition] == false) {
+          console.log("card 1", randomPosition)
+          randomSelection.splice(randomPosition, 1, this.state.pokemon[randomIndex])
+          break
+        }
+      }
     }
     this.setState({
       gameDeck: randomSelection
