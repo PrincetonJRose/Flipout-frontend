@@ -131,7 +131,6 @@ export default class App extends React.Component {
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] == false) {
-          console.log("card 1", randomPosition)
           randomSelection.splice(randomPosition, 1, this.state.pokemon[randomIndex])
           break
         }
@@ -139,7 +138,6 @@ export default class App extends React.Component {
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] == false) {
-          console.log("card 1", randomPosition)
           randomSelection.splice(randomPosition, 1, this.state.pokemon[randomIndex])
           break
         }
