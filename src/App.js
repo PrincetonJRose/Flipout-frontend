@@ -29,27 +29,21 @@ export default class App extends React.Component {
       })
       this.setState({ pokemon: addMatched })
       this.generateBoard()
-      let indexPosition = -1
-      let addIndex = this.state.gameDeck.map( pokemon => {
-        indexPosition += 1
-        return {...pokemon, index: indexPosition}
-      })
-      this.setState({ gameDeck: addIndex })
     })
   }
 
   checkTurnOver =()=> {
     if (this.state.turnOver < 2) {
-      if (this.state.turnOver + 1 == 2) {
+      if (this.state.turnOver + 1 === 2) {
         this.setState({ turnOver: this.state.turnOver + 1 })
-        setTimeout( this.resetTurnOver, 1600 )
+        setTimeout( this.resetTurnOver, 1300 )
       }
       this.setState({
         turnOver: this.state.turnOver + 1
       })
     }
     if (this.state.turnOver === 2) {
-      setTimeout( this.resetTurnOver, 1600 )
+      setTimeout( this.resetTurnOver, 1300 )
     }
   }
 
@@ -115,11 +109,18 @@ export default class App extends React.Component {
       }
     })
     if (count === this.state.gameDeck.length) {
-      this.gameWin()
+      // this.gameWin()
+      this.generateBoard()
     }
   }
 
   generateBoard =()=> {
+    let reset = this.state.pokemon.map( pokemon => {
+      pokemon.isFlipped = false
+      pokemon.isMatched = false
+      return pokemon
+    })
+    this.setState({ pokemon: reset })
     let randomSelection = []
     for (let i = 0; i < this.state.cardTotal; i++) {
       randomSelection.push(false)
@@ -142,9 +143,19 @@ export default class App extends React.Component {
         }
       }
     }
+    setTimeout( this.setGameDeck(randomSelection), 5000)
+  }
+  
+  setGameDeck =(randomSelection)=> {
     this.setState({
       gameDeck: randomSelection
     })
+    let indexPosition = -1
+    let addIndex = this.state.gameDeck.map( pokemon => {
+      indexPosition += 1
+      return {...pokemon, index: indexPosition}
+    })
+    this.setState({ gameDeck: addIndex })
   }
 
   render() {
