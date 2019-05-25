@@ -110,17 +110,21 @@ export default class App extends React.Component {
     })
     if (count === this.state.gameDeck.length) {
       // this.gameWin()
-      this.generateBoard()
+      this.gameReset()
     }
   }
 
-  generateBoard =()=> {
+  gameReset =()=> {
     let reset = this.state.pokemon.map( pokemon => {
       pokemon.isFlipped = false
       pokemon.isMatched = false
       return pokemon
     })
     this.setState({ pokemon: reset })
+    this.generateBoard()
+  }
+
+  generateBoard =()=> {
     let randomSelection = []
     for (let i = 0; i < this.state.cardTotal; i++) {
       randomSelection.push(false)
