@@ -143,20 +143,19 @@ export default class App extends React.Component {
         }
       }
     }
-    setTimeout( this.setGameDeck(randomSelection), 5000)
-  }
-  
-  setGameDeck =(randomSelection)=> {
     this.setState({
       gameDeck: randomSelection
     })
     let indexPosition = -1
     let addIndex = this.state.gameDeck.map( pokemon => {
       indexPosition += 1
+      pokemon.isFlipped = false
       return {...pokemon, index: indexPosition}
     })
     this.setState({ gameDeck: addIndex })
   }
+  
+
 
   render() {
     return (
