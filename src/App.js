@@ -4,7 +4,7 @@ import CardContainer from './containers/CardContainer'
 import './App.css'
 const pokeURL = `http://localhost:3000/pokemon/`
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(){
     super()
     this.state = {
@@ -54,6 +54,7 @@ class App extends React.Component {
   }
 
   resetTurnOver =()=> {
+    this.compareMatch()
     let flipAll = this.state.gameDeck.map( pokemon => {
       if (pokemon.isMatched) {
         pokemon.isFlipped = true
@@ -79,6 +80,13 @@ class App extends React.Component {
       }
     })
     this.setState({ pokemon: flip })
+    if (this.state.compare.length < 2) {
+      let compare = this.state.compare
+      compare.push(pokemonFlip)
+      this.setState({
+        compare: compare
+      })
+    }
     this.checkTurnOver()
   }
 
@@ -93,7 +101,12 @@ class App extends React.Component {
           return pokemon
         }
       })
-      this.setState({ gameDeck: match, compare: [] })
+      this.setState({
+        gameDeck: match,
+        compare: [],
+      })
+    } else if (compare.length == 2 && compare[0].id !== compare[1].id) {
+      this.setState({ compare: [] })
     }
     let count = 0
     this.state.gameDeck.map( pokemon => {
@@ -118,15 +131,12 @@ class App extends React.Component {
     })
   }
 
-  render(){
+  render() {
     return (
       <div className="App">
         <Nav />
         <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} checkTurnOver={this.checkTurnOver} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
       </div>
-    );
+    )
   }
-
 }
-
-export default App;
