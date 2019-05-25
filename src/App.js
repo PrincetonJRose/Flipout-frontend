@@ -110,7 +110,7 @@ export default class App extends React.Component {
     })
     if (count === this.state.gameDeck.length) {
       // this.gameWin()
-      this.gameReset()
+      setTimeout(this.gameReset(), 8000)
     }
   }
 
@@ -120,7 +120,10 @@ export default class App extends React.Component {
       pokemon.isMatched = false
       return pokemon
     })
-    this.setState({ pokemon: reset })
+    this.setState({
+      pokemon: reset,
+      gameDeck: [],
+    })
     this.generateBoard()
   }
 
@@ -147,11 +150,12 @@ export default class App extends React.Component {
         }
       }
     }
-    this.setState({
-      gameDeck: randomSelection
-    })
+    this.setGameDeck(randomSelection)
+  }
+  
+  setGameDeck =(randomSelection)=> {
     let indexPosition = -1
-    let addIndex = this.state.gameDeck.map( pokemon => {
+    let addIndex = randomSelection.map( pokemon => {
       indexPosition += 1
       pokemon.isFlipped = false
       return {...pokemon, index: indexPosition}
@@ -159,8 +163,6 @@ export default class App extends React.Component {
     this.setState({ gameDeck: addIndex })
   }
   
-
-
   render() {
     return (
       <div className="App">
