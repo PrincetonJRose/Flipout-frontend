@@ -41,6 +41,7 @@ class App extends React.Component {
   checkTurnOver =()=> {
     if (this.state.turnOver < 2) {
       if (this.state.turnOver + 1 == 2) {
+        this.setState({ turnOver: this.state.turnOver + 1 })
         setTimeout( this.resetTurnOver, 1600 )
       }
       this.setState({
@@ -82,7 +83,27 @@ class App extends React.Component {
   }
 
   compareMatch =()=> {
-    
+    let compare = this.state.compare
+    if (compare.length == 2 && compare[0].id === compare[1].id) {
+      let match = this.state.gameDeck.map( pokemon => {
+        if (pokemon.index === compare[0].index || pokemon.index === compare[1].index) {
+          pokemon.isMatched = true
+          return pokemon
+        } else {
+          return pokemon
+        }
+      })
+      this.setState({ gameDeck: match, compare: [] })
+    }
+    let count = 0
+    this.state.gameDeck.map( pokemon => {
+      if (pokemon.isMatched) {
+        count += 1
+      }
+    })
+    if (count === this.state.gameDeck.length) {
+      this.gameWin()
+    }
   }
 
   generateBoard =()=> {
