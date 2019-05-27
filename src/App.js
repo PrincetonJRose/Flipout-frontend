@@ -27,6 +27,23 @@ export default class App extends React.Component {
     } else {
       this.setState({numColumns: 6, cardTotal: 24})
     }
+    fetch(localURL + `themes`)
+    .then(res => res.json())
+    .then(themeData => {
+      let addFlipped = themeData.map( theme => {
+        return {...theme, isFlipped: false}
+      })
+      let addMatched = addFlipped.map( theme => {
+        return {...theme, isMatched: false}
+      })
+      this.setState({ themes: addMatched })
+    })
+    fetch(localURL + `users`)
+    .then(res => res.json())
+    .then(userData => {
+      this.setState({ users: userData })
+      this.generateBoard()
+    })
   }
 
   componentDidMount() {
@@ -40,7 +57,6 @@ export default class App extends React.Component {
         return {...theme, isMatched: false}
       })
       this.setState({ themes: addMatched })
-      this.generateBoard()
     })
     fetch(localURL + `users`)
     .then(res => res.json())
@@ -203,7 +219,7 @@ export default class App extends React.Component {
     if (this.state.gameDeck) {
       return (
         <div className="App">
-          <Nav />
+          <Nav newGame={this.handleNewGame}/>
           <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
         </div>
       )
