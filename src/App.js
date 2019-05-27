@@ -83,7 +83,7 @@ export default class App extends React.Component {
     }
     this.checkTurnOver()
   }
-  
+
   compareMatch =()=> {
     let compare = this.state.compare
     if (compare.length === 2 && compare[0].id === compare[1].id) {
@@ -134,7 +134,7 @@ export default class App extends React.Component {
     }
     for (let i = 0; i < (this.state.cardTotal/2); i++) {
       let randomIndex = Math.round(Math.random() * this.state.pokemon.length)
-      let randomPosition 
+      let randomPosition
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] === false) {
@@ -152,7 +152,7 @@ export default class App extends React.Component {
     }
     this.setGameDeck(randomSelection)
   }
-  
+
   setGameDeck =(randomSelection)=> {
     let indexPosition = -1
     let addIndex = randomSelection.map( pokemon => {
@@ -179,11 +179,12 @@ export default class App extends React.Component {
     })
     this.setState({ gameDeck: hideAll })
   }
-  
+
   render() {
     return (
       <div className="App">
         <Nav />
+        <br></br>
         <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
       </div>
     )

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Icon, Menu, Grid } from 'semantic-ui-react'
+import { Icon, Menu, Grid, Modal } from 'semantic-ui-react'
 
 class Nav extends Component {
   state = {}
@@ -10,7 +10,7 @@ class Nav extends Component {
     const { activeItem } = this.state
 
     return (
-      <Grid centered>
+        <Grid.Column centered>
         <Menu compact icon='labeled'>
           <Menu.Item
             name='flag checkered'
@@ -40,15 +40,6 @@ class Nav extends Component {
           </Menu.Item>
 
           <Menu.Item
-            name='clipboard'
-            active={activeItem === 'clipboard'}
-            onClick={this.handleItemClick}
-          >
-            <Icon name='clipboard' />
-            Settings
-          </Menu.Item>
-
-          <Menu.Item
             name='power off'
             active={activeItem === 'power off'}
             onClick={this.handleItemClick}
@@ -57,7 +48,7 @@ class Nav extends Component {
             Logout
           </Menu.Item>
         </Menu>
-      </Grid>
+        </Grid.Column>
     )
   }
 }
