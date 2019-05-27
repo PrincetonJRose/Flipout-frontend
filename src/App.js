@@ -110,7 +110,7 @@ export default class App extends React.Component {
     })
     if (count === this.state.gameDeck.length) {
       // this.gameWin()
-      setTimeout(this.gameReset(), 8000)
+      // setInterval(this.gameReset(), 8000)
     }
   }
 
@@ -169,7 +169,7 @@ export default class App extends React.Component {
       return pokemon
     })
     this.setState({ gameDeck: showAll })
-    setTimeout( this.hideAllCards(), 8000 )
+    setInterval( this.hideAllCards(), 8000 )
   }
 
   hideAllCards =()=> {
@@ -181,11 +181,15 @@ export default class App extends React.Component {
   }
   
   render() {
-    return (
-      <div className="App">
-        <Nav />
-        <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
-      </div>
-    )
+    if (this.state.gameDeck) {
+      return (
+        <div className="App">
+          <Nav />
+          <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
+        </div>
+      )
+    } else {
+      return null
+    }
   }
 }
