@@ -19,6 +19,16 @@ export default class App extends React.Component {
     }
   }
 
+  handleNewGame = (size) => {
+    if (size === 'sm') {
+      this.setState({cardTotal: 16})
+    } else if (size === 'md') {
+      this.setState({numColumns: 5, cardTotal: 20})
+    } else {
+      this.setState({numColumns: 6, cardTotal: 24})
+    }
+  }
+
   componentDidMount() {
     fetch(localURL + `themes`)
     .then(res => res.json())
@@ -88,7 +98,7 @@ export default class App extends React.Component {
     }
     this.checkTurnOver()
   }
-  
+
   compareMatch =()=> {
     let compare = this.state.compare
     if (compare.length === 2 && compare[0].id === compare[1].id) {
@@ -161,7 +171,7 @@ export default class App extends React.Component {
     }
     this.setGameDeck(randomSelection)
   }
-  
+
   setGameDeck =(randomSelection)=> {
     let indexPosition = -1
     let addIndex = randomSelection.map( card => {
@@ -188,7 +198,7 @@ export default class App extends React.Component {
     })
     this.setState({ gameDeck: hideAll })
   }
-  
+
   render() {
     if (this.state.gameDeck) {
       return (
