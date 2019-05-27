@@ -17,7 +17,14 @@ export default class App extends React.Component {
     }
   }
 
-  componentDidMount() {
+  handleNewGame = (size) => {
+    if (size === 'sm') {
+      this.setState({cardTotal: 16})
+    } else if (size === 'md') {
+      this.setState({numColumns: 5, cardTotal: 20})
+    } else {
+      this.setState({numColumns: 6, cardTotal: 24})
+    }
     fetch(pokeURL)
     .then(res => res.json())
     .then(pokemonData => {
@@ -29,6 +36,21 @@ export default class App extends React.Component {
       })
       this.setState({ pokemon: addMatched })
       this.generateBoard()
+    })
+  }
+
+  componentDidMount() {
+    fetch(pokeURL)
+    .then(res => res.json())
+    .then(pokemonData => {
+      let addFlipped = pokemonData.map( pokemon => {
+        return {...pokemon, isFlipped: false}
+      })
+      let addMatched = addFlipped.map( pokemon => {
+        return {...pokemon, isMatched: false}
+      })
+      this.setState({ pokemon: addMatched })
+      // this.generateBoard()
     })
   }
 
@@ -183,7 +205,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Nav />
+        <Nav newGame={this.handleNewGame}/>
         <br></br>
         <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
       </div>

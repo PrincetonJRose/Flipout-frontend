@@ -13,13 +13,13 @@ class Nav extends Component {
           <Menu.Item name='flag checkered'>
             <Icon name='flag checkered' />
             <br></br>
-            <Modal trigger={<Button basic color='green'>New Game</Button>} centered={false}>
+            <Modal id='newGameModal' trigger={<Button basic color='green'>New Game</Button>} centered={false} closeIcon>
               <Modal.Header>Create A New Game</Modal.Header>
               <Modal.Content image>
                 <Image wrapped size='medium' src='https://scontent-sin6-2.cdninstagram.com/vp/791c65b62980199a42228a557f194242/5D19610D/t51.2885-15/e35/46099340_103715900616147_6366816526032884159_n.jpg?_nc_ht=scontent-sin6-2.cdninstagram.com' />
                 <Modal.Description>
                   <Header>Select A Board Size</Header>
-                  <Form>
+                  <Form onSubmit={() => this.props.newGame(this.state.value)}>
                     <Form.Group inline>
                      <label>Size</label>
                      <Form.Radio
@@ -29,19 +29,19 @@ class Nav extends Component {
                        onChange={this.handleChange}
                      />
                      <Form.Radio
-                       label='5x4'
+                       label='4x5'
                        value='md'
                        checked={value === 'md'}
                        onChange={this.handleChange}
                      />
                      <Form.Radio
-                       label='6x4'
+                       label='4x6'
                        value='lg'
                        checked={value === 'lg'}
                        onChange={this.handleChange}
                      />
                    </Form.Group>
-                    <Form.Button>Create Game!</Form.Button>
+                    <Form.Button type='submit'>Create Game!</Form.Button>
                   </Form>
                 </Modal.Description>
               </Modal.Content>
