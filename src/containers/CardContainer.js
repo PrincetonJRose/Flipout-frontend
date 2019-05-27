@@ -5,11 +5,13 @@ import {Grid} from 'semantic-ui-react'
 function CardContainer(props){
   return(
     <Grid container columns={props.numColumns}>
-      {props.pokemon.map( pm =>(
-        <Grid.Column>
-          <FlipCard pokemon={pm} flipCard={props.flipCard} checkTurnOver={props.checkTurnOver} turnOver={props.turnOver}/>
-        </Grid.Column>
-      ))}
+      {
+        props.pokemon.map(pokemon => (
+          <Grid.Column>
+            <FlipCard pokemon={pokemon} flipCard={props.flipCard} turnOver={props.turnOver}/>
+          </Grid.Column>
+        ))
+      }
     </Grid>
   )
 }
