@@ -6,9 +6,9 @@ function CardContainer(props){
   return(
     <Grid container columns={props.numColumns}>
       {
-        props.pokemon.map(pokemon => (
+        props.gameDeck.map(card => (
           <Grid.Column>
-            <FlipCard pokemon={pokemon} flipCard={props.flipCard} turnOver={props.turnOver}/>
+            <FlipCard card={card} flipCard={props.flipCard} turnOver={props.turnOver}/>
           </Grid.Column>
         ))
       }
