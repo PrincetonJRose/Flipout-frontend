@@ -17,7 +17,14 @@ export default class App extends React.Component {
     }
   }
 
-  componentDidMount() {
+  handleNewGame = (size) => {
+    if (size === 'sm') {
+      this.setState({cardTotal: 16})
+    } else if (size === 'md') {
+      this.setState({numColumns: 5, cardTotal: 20})
+    } else {
+      this.setState({numColumns: 6, cardTotal: 24})
+    }
     fetch(pokeURL)
     .then(res => res.json())
     .then(pokemonData => {
@@ -29,6 +36,21 @@ export default class App extends React.Component {
       })
       this.setState({ pokemon: addMatched })
       this.generateBoard()
+    })
+  }
+
+  componentDidMount() {
+    fetch(pokeURL)
+    .then(res => res.json())
+    .then(pokemonData => {
+      let addFlipped = pokemonData.map( pokemon => {
+        return {...pokemon, isFlipped: false}
+      })
+      let addMatched = addFlipped.map( pokemon => {
+        return {...pokemon, isMatched: false}
+      })
+      this.setState({ pokemon: addMatched })
+      // this.generateBoard()
     })
   }
 
@@ -83,7 +105,7 @@ export default class App extends React.Component {
     }
     this.checkTurnOver()
   }
-  
+
   compareMatch =()=> {
     let compare = this.state.compare
     if (compare.length === 2 && compare[0].id === compare[1].id) {
@@ -134,7 +156,7 @@ export default class App extends React.Component {
     }
     for (let i = 0; i < (this.state.cardTotal/2); i++) {
       let randomIndex = Math.round(Math.random() * this.state.pokemon.length)
-      let randomPosition 
+      let randomPosition
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] === false) {
@@ -152,7 +174,7 @@ export default class App extends React.Component {
     }
     this.setGameDeck(randomSelection)
   }
-  
+
   setGameDeck =(randomSelection)=> {
     let indexPosition = -1
     let addIndex = randomSelection.map( pokemon => {
@@ -179,7 +201,7 @@ export default class App extends React.Component {
     })
     this.setState({ gameDeck: hideAll })
   }
-  
+
   render() {
     if (this.state.gameDeck) {
       return (

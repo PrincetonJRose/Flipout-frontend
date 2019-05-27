@@ -1,63 +1,64 @@
 import React, {Component} from 'react';
-import { Icon, Menu, Grid } from 'semantic-ui-react'
+import { Icon, Menu, Grid, Modal, Button, Header, Image, Form } from 'semantic-ui-react'
 
 class Nav extends Component {
   state = {}
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
+  handleChange = (e, { value }) => this.setState({ value })
   render() {
-    const { activeItem } = this.state
-
+    const { value } = this.state
     return (
-      <Grid centered>
+        <Grid.Column centered>
         <Menu compact icon='labeled'>
-          <Menu.Item
-            name='flag checkered'
-            active={activeItem === 'flag checkered'}
-            onClick={this.handleItemClick}
-          >
+          <Menu.Item name='flag checkered'>
             <Icon name='flag checkered' />
-            New Game
+            <br></br>
+            <Modal id='newGameModal' trigger={<Button basic color='green'>New Game</Button>} centered={false} closeIcon>
+              <Modal.Header>Create A New Game</Modal.Header>
+              <Modal.Content image>
+                <Image wrapped size='medium' src='https://scontent-sin6-2.cdninstagram.com/vp/791c65b62980199a42228a557f194242/5D19610D/t51.2885-15/e35/46099340_103715900616147_6366816526032884159_n.jpg?_nc_ht=scontent-sin6-2.cdninstagram.com' />
+                <Modal.Description>
+                  <Header>Select A Board Size</Header>
+                  <Form onSubmit={() => this.props.newGame(this.state.value)}>
+                    <Form.Group inline>
+                     <label>Size</label>
+                     <Form.Radio
+                       label='4x4'
+                       value='sm'
+                       checked={value === 'sm'}
+                       onChange={this.handleChange}
+                     />
+                     <Form.Radio
+                       label='4x5'
+                       value='md'
+                       checked={value === 'md'}
+                       onChange={this.handleChange}
+                     />
+                     <Form.Radio
+                       label='4x6'
+                       value='lg'
+                       checked={value === 'lg'}
+                       onChange={this.handleChange}
+                     />
+                   </Form.Group>
+                    <Form.Button type='submit'>Create Game!</Form.Button>
+                  </Form>
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
           </Menu.Item>
 
-          <Menu.Item
-            name='gamepad'
-            active={activeItem === 'gamepad'}
-            onClick={this.handleItemClick}
-          >
-            <Icon name='gamepad' />
-            Current Game
-          </Menu.Item>
-
-          <Menu.Item
-            name='trophy'
-            active={activeItem === 'trophy'}
-            onClick={this.handleItemClick}
-          >
+          <Menu.Item>
             <Icon name='trophy' />
             High Scores
           </Menu.Item>
 
-          <Menu.Item
-            name='clipboard'
-            active={activeItem === 'clipboard'}
-            onClick={this.handleItemClick}
-          >
-            <Icon name='clipboard' />
-            Settings
-          </Menu.Item>
-
-          <Menu.Item
-            name='power off'
-            active={activeItem === 'power off'}
-            onClick={this.handleItemClick}
-          >
+          <Menu.Item>
             <Icon name='power off' />
             Logout
           </Menu.Item>
         </Menu>
-      </Grid>
+        </Grid.Column>
     )
   }
 }
