@@ -2,103 +2,124 @@ import React from 'react';
 import Nav from './components/Nav'
 import CardContainer from './containers/CardContainer'
 import './App.css'
-const pokeURL = `http://localhost:3000/pokemon/`
+const localURL = `http://localhost:3000/`
 
 export default class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      pokemon: [],
+      themes: [],
       turnOver: 0,
       numColumns: 4,
+      numRows: 4,
       cardTotal: 16,
       compare: [],
       gameDeck: [],
+      users: [],
+      theme: 'pokemon',
+      cardBacks: ["../images/darkPokeBall.png", "../images/lightPokeBall.png"],
+      cardBack: null,
+      misses: 0,
+      combo: 0,
+      turns: 0,
     }
   }
 
-  handleNewGame = (size) => {
-    if (size === 'sm') {
-      this.setState({numColumns: 4, cardTotal: 16})
-    } else if (size === 'md') {
-      this.setState({numColumns: 5, cardTotal: 20})
-    } else {
-      this.setState({numColumns: 6, cardTotal: 24})
-    }
-    fetch(pokeURL)
+  componentDidMount() {
+    fetch(localURL + `themes`)
     .then(res => res.json())
-    .then(pokemonData => {
-      let addFlipped = pokemonData.map( pokemon => {
-        return {...pokemon, isFlipped: false}
+    .then(themeData => {
+      let addFlipped = themeData.map( theme => {
+        return {...theme, isFlipped: false}
       })
-      let addMatched = addFlipped.map( pokemon => {
-        return {...pokemon, isMatched: false}
+      let addMatched = addFlipped.map( theme => {
+        return {...theme, isMatched: false}
       })
-      this.setState({ pokemon: addMatched })
+      this.setState({
+        themes: addMatched,
+      })
+    })
+    fetch(localURL + `users`)
+    .then(res => res.json())
+    .then(userData => this.setState({ users: userData }))
+  }
+
+  handleNewGame = (size, cardBack) => {
+    if (size === 'sm') {
+      this.setState({
+        numColumns: 4,
+        numRows: 4,
+        cardTotal: 16,
+      })
+    } else if (size === 'md') {
+      this.setState({
+        numColumns: 5,
+        numRows: 4,
+        cardTotal: 20,
+      })
+    } else {
+      this.setState({
+        numColumns: 6,
+        numRows: 4,
+        cardTotal: 24,
+      })
+    }
+    fetch(localURL + `themes`)
+    .then(res => res.json())
+    .then(themeData => {
+      this.setState({
+        cardBack: this.state.cardBacks[Math.round(Math.random())],
+      })
       this.generateBoard()
     })
   }
 
-  componentDidMount() {
-    fetch(pokeURL)
-    .then(res => res.json())
-    .then(pokemonData => {
-      let addFlipped = pokemonData.map( pokemon => {
-        return {...pokemon, isFlipped: false}
-      })
-      let addMatched = addFlipped.map( pokemon => {
-        return {...pokemon, isMatched: false}
-      })
-      this.setState({ pokemon: addMatched })
-      // this.generateBoard()
-    })
-  }
 
   checkTurnOver =()=> {
     if (this.state.turnOver < 2) {
       if (this.state.turnOver + 1 === 2) {
         this.setState({ turnOver: this.state.turnOver + 1 })
-        setTimeout( this.resetTurnOver, 1300 )
+        setTimeout( this.resetTurnOver, 1100 )
       }
       this.setState({
         turnOver: this.state.turnOver + 1
       })
     }
     if (this.state.turnOver === 2) {
-      setTimeout( this.resetTurnOver, 1300 )
+      setTimeout( this.resetTurnOver, 1100 )
     }
   }
 
   resetTurnOver =()=> {
     this.compareMatch()
-    let flipAll = this.state.gameDeck.map( pokemon => {
-      if (pokemon.isMatched) {
-        pokemon.isFlipped = true
-        return pokemon
+    let flipAll = this.state.gameDeck.map( card => {
+      if (card.isMatched) {
+        card.isFlipped = true
+        return card
       } else {
-        pokemon.isFlipped = false
-        return pokemon
+        card.isFlipped = false
+        return card
       }
     })
     this.setState({
       turnOver: 0,
-      pokemon: flipAll
+      gameDeck: flipAll
     })
   }
 
-  flipCard =(pokemonFlip)=> {
-    let flip = this.state.gameDeck.map( pokemon => {
-      if (pokemon.index === pokemonFlip.index) {
-        pokemon.isFlipped = true
-        return pokemon
+  flipCard =(cardFlip)=> {
+    let flip = this.state.gameDeck.map( card => {
+      if (card.index === cardFlip.index) {
+        card.isFlipped = true
+        return card
       } else {
-        return pokemon
+        return card
       }
     })
-    this.setState({ pokemon: flip })
+    this.setState({ gameDeck: flip })
     if (this.state.compare.length < 2) {
       let compare = this.state.compare
-      compare.push(pokemonFlip)
+      compare.push(cardFlip)
       this.setState({
         compare: compare
       })
@@ -109,42 +130,50 @@ export default class App extends React.Component {
   compareMatch =()=> {
     let compare = this.state.compare
     if (compare.length === 2 && compare[0].id === compare[1].id) {
-      let match = this.state.gameDeck.map( pokemon => {
-        if (pokemon.index === compare[0].index || pokemon.index === compare[1].index) {
-          pokemon.isMatched = true
-          return pokemon
+      let match = this.state.gameDeck.map( card => {
+        if (card.index === compare[0].index || card.index === compare[1].index) {
+          card.isMatched = true
+          return card
         } else {
-          return pokemon
+          return card
         }
       })
       this.setState({
         gameDeck: match,
         compare: [],
+        turns: this.state.turns + 1,
       })
     } else if (compare.length === 2 && compare[0].id !== compare[1].id) {
-      this.setState({ compare: [] })
+      this.setState({
+        compare: [],
+        misses: this.state.misses + 1,
+        turns: this.state.turns + 1,
+      })
     }
     let count = 0
-    this.state.gameDeck.map( pokemon => {
-      if (pokemon.isMatched) {
+    this.state.gameDeck.map( card => {
+      if (card.isMatched) {
         count += 1
       }
     })
     if (count === this.state.gameDeck.length) {
       // this.gameWin()
-      // setInterval(this.gameReset(), 8000)
+      setTimeout(this.gameReset(), 8000)
     }
   }
 
   gameReset =()=> {
-    let reset = this.state.pokemon.map( pokemon => {
-      pokemon.isFlipped = false
-      pokemon.isMatched = false
-      return pokemon
+    let reset = this.state.themes.map( card => {
+      card.isFlipped = false
+      card.isMatched = false
+      return card
     })
     this.setState({
-      pokemon: reset,
+      themes: reset,
       gameDeck: [],
+      misses: 0,
+      combo: 0,
+      turns: 0,
     })
     this.generateBoard()
   }
@@ -154,20 +183,24 @@ export default class App extends React.Component {
     for (let i = 0; i < this.state.cardTotal; i++) {
       randomSelection.push(false)
     }
+    let themeChosen = this.state.themes.filter( theme => {
+      if (theme.name === this.state.theme)
+        return true
+    })
     for (let i = 0; i < (this.state.cardTotal/2); i++) {
-      let randomIndex = Math.round(Math.random() * this.state.pokemon.length)
+      let randomIndex = Math.round(Math.random() * themeChosen.length)
       let randomPosition
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] === false) {
-          randomSelection.splice(randomPosition, 1, this.state.pokemon[randomIndex])
+          randomSelection.splice(randomPosition, 1, themeChosen[randomIndex])
           break
         }
       }
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] === false) {
-          randomSelection.splice(randomPosition, 1, this.state.pokemon[randomIndex])
+          randomSelection.splice(randomPosition, 1, themeChosen[randomIndex])
           break
         }
       }
@@ -177,27 +210,29 @@ export default class App extends React.Component {
 
   setGameDeck =(randomSelection)=> {
     let indexPosition = -1
-    let addIndex = randomSelection.map( pokemon => {
+    let addIndex = randomSelection.map( card => {
       indexPosition += 1
-      return {...pokemon, index: indexPosition}
+      return {...card, index: indexPosition}
     })
-    this.setState({ gameDeck: addIndex })
+    this.setState({
+      gameDeck: addIndex,
+    })
     this.showAllCards()
   }
 
   showAllCards =()=> {
-    let showAll = this.state.gameDeck.map( pokemon => {
-      pokemon.isFlipped = true
-      return pokemon
+    let showAll = this.state.gameDeck.map( card => {
+      card.isFlipped = true
+      return card
     })
     this.setState({ gameDeck: showAll })
-    setInterval( this.hideAllCards(), 8000 )
+    setTimeout( this.hideAllCards(), 8000 )
   }
 
   hideAllCards =()=> {
-    let hideAll = this.state.gameDeck.map( pokemon => {
-      pokemon.isFlipped = false
-      return pokemon
+    let hideAll = this.state.gameDeck.map( card => {
+      card.isFlipped = false
+      return card
     })
     this.setState({ gameDeck: hideAll })
   }
@@ -206,8 +241,9 @@ export default class App extends React.Component {
     if (this.state.gameDeck) {
       return (
         <div className="App">
-          <Nav newGame={this.handleNewGame}/>
-          <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
+          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks}/>
+          <br></br>
+          <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
         </div>
       )
     } else {

@@ -9,8 +9,8 @@ export default class FlipCard extends Component {
 
   handleClick =(e)=> {
     e.preventDefault()
-    if (this.props.pokemon.isFlipped === false && this.props.turnOver < 2) {
-    this.props.flipCard(this.props.pokemon)
+    if (this.props.card.isFlipped === false && this.props.turnOver < 2) {
+    this.props.flipCard(this.props.card)
     }
   }
 
@@ -18,12 +18,12 @@ export default class FlipCard extends Component {
     return (
       <Container>
         <div className="flip-card">
-          <ReactCardFlip isFlipped={this.props.pokemon.isFlipped} flipDirection="horizontal">
+          <ReactCardFlip isFlipped={this.props.card.isFlipped} flipDirection="horizontal">
             <div className="flip-card-front" onClick={this.handleClick} key="front">
-              <Image src='../images/lightPokeBall.png' size='small' />
+              <Image src={this.props.cardBack} size='small' />
             </div>
             <div className="flip-card-back" onClick={this.handleClick} key="back">
-              <Image src={this.props.pokemon.sprites.front} wrapped />
+              <Image src={this.props.card.img_url} wrapped />
             </div>
           </ReactCardFlip>
         </div>
