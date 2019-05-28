@@ -17,19 +17,19 @@ export default class App extends React.Component {
       compare: [],
       gameDeck: [],
       users: [],
-      current_user: {},
+      currentUser: {},
       theme: 'pokemon',
       cardBacks: ["../images/darkPokeBall.png", "../images/lightPokeBall.png"],
       cardBack: null,
       misses: 0,
       combo: 0,
       turns: 0,
-      userName: ''
     }
   }
-
+  
   componentDidMount() {
     fetch(localURL + `themes`)
+    .catch(errors => console.log(errors))
     .then(res => res.json())
     .then(themeData => {
       let addFlipped = themeData.map( theme => {
@@ -42,7 +42,9 @@ export default class App extends React.Component {
         themes: addMatched,
       })
     })
+
     fetch(localURL + `users`)
+    .catch(errors => console.log(errors))
     .then(res => res.json())
     .then(userData => this.setState({ users: userData }))
   }
@@ -68,12 +70,14 @@ export default class App extends React.Component {
       })
     }
     fetch(localURL + `themes`)
+    .catch(errors => console.log(errors))
     .then(res => res.json())
     .then(themeData => {
       this.setState({
         cardBack: this.state.cardBacks[Math.round(Math.random())],
       })
       this.gameReset()
+      this.generateBoard()
     })
   }
 
@@ -178,7 +182,6 @@ export default class App extends React.Component {
       combo: 0,
       turns: 0,
     })
-    this.generateBoard()
   }
 
   generateBoard =()=> {
@@ -240,33 +243,65 @@ export default class App extends React.Component {
     this.setState({ gameDeck: hideAll })
   }
 
-  loginSubmit = (name) => {
-    this.setState({userName: name})
+  loginSubmit =(e, name)=> {
+    let findUser
+    this.state.users.map( user => {
+      if (name.toLowerCase() === user.username.toLowerCase()){
+        findUser = user
+      }
+    })
+    if (findUser) {
+      this.setState({
+        currentUser: findUser[0]
+      })
+    } else {
+      let create = window.confirm(`User '${name}' was not found. Would you like to create a new profile instead?`)
+      if (create) {
+        fetch(localURL + `users`, {
+          method: "POST",
+          headers:{
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({ username: name })
+        })
+        .catch(errors => console.log(errors))
+        .then(res => res.json())
+        .then(userData => {
+          this.setState({
+            currentUser: userData
+          })
+        })
+        fetch(localURL + `user_stats`)
+
+      }
+    }
+    e.target.reset()
   }
 
-  logout = () => {
-    this.setState({userName: ''})
+  logout =()=> {
+    this.setState({ currentUser: {}, })
   }
 
   render() {
-    if (this.state.gameDeck) {
-      if (this.state.userName === ''){
+    if (this.state.currentUser.username) {
+      if (this.state.gameDeck) {
+        return (
+          <div className="App">
+            <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo} currentUser={this.state.currentUser} logout={this.logout}/>
+            <br></br>
+            <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
+          </div>
+        )
+      } else {
+        return null
+      }
+      } else {
         return (
           <div className="App">
             <LoginForm loginSubmit={this.loginSubmit}/>
           </div>
         )
-      } else {
-        return (
-          <div className="App">
-            <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo} name={this.state.userName} logout={this.logout}/>
-            <br></br>
-            <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
-          </div>
-        )
       }
-    } else {
-      return null
-    }
   }
 }
