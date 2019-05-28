@@ -1,6 +1,7 @@
 import React from 'react';
 import Nav from './components/Nav'
 import CardContainer from './containers/CardContainer'
+import LoginForm from './components/LoginForm'
 import './App.css'
 const localURL = `http://localhost:3000/`
 
@@ -22,6 +23,7 @@ export default class App extends React.Component {
       misses: 0,
       combo: 0,
       turns: 0,
+      userName: ''
     }
   }
 
@@ -237,15 +239,31 @@ export default class App extends React.Component {
     this.setState({ gameDeck: hideAll })
   }
 
+  loginSubmit = (name) => {
+    this.setState({userName: name})
+  }
+
+  logout = () => {
+    this.setState({userName: ''})
+  }
+
   render() {
     if (this.state.gameDeck) {
-      return (
-        <div className="App">
-          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo}/>
-          <br></br>
-          <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
-        </div>
-      )
+      if (this.state.userName === ''){
+        return (
+          <div className="App">
+            <LoginForm loginSubmit={this.loginSubmit}/>
+          </div>
+        )
+      } else {
+        return (
+          <div className="App">
+            <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo} name={this.state.userName} logout={this.logout}/>
+            <br></br>
+            <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
+          </div>
+        )
+      }
     } else {
       return null
     }
