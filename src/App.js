@@ -43,7 +43,7 @@ export default class App extends React.Component {
     .then(res => res.json())
     .then(userData => this.setState({ users: userData }))
   }
-  
+
   handleNewGame = (size, cardBack) => {
     if (size === 'sm') {
       this.setState({
@@ -70,7 +70,7 @@ export default class App extends React.Component {
       this.setState({
         cardBack: this.state.cardBacks[Math.round(Math.random())],
       })
-      this.generateBoard()
+      this.gameReset()
     })
   }
 
@@ -189,7 +189,7 @@ export default class App extends React.Component {
     })
     for (let i = 0; i < (this.state.cardTotal/2); i++) {
       let randomIndex = Math.round(Math.random() * themeChosen.length)
-      let randomPosition 
+      let randomPosition
       while (true) {
         randomPosition = Math.round(Math.random() * (this.state.cardTotal - 1))
         if (randomSelection[randomPosition] === false) {
@@ -241,7 +241,7 @@ export default class App extends React.Component {
     if (this.state.gameDeck) {
       return (
         <div className="App">
-          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks}/>
+          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo}/>
           <br></br>
           <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
         </div>
