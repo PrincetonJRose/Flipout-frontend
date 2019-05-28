@@ -4,7 +4,11 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 class LoginForm extends React.Component {
   state = {}
 
+<<<<<<< HEAD
   handleChange = (e) => {this.setState({ name: e.target.value })
+=======
+  handleChange = (e) => {this.setState({ name: e.target.value })}
+>>>>>>> fe7b853568007febcf4b9117676ccc83ed350c53
 
   render(){
     return(
