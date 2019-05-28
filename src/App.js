@@ -70,7 +70,7 @@ export default class App extends React.Component {
       this.setState({
         cardBack: this.state.cardBacks[Math.round(Math.random())],
       })
-      this.generateBoard()
+      this.gameReset()
     })
   }
 
