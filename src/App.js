@@ -19,7 +19,7 @@ export default class App extends React.Component {
 
   handleNewGame = (size) => {
     if (size === 'sm') {
-      this.setState({cardTotal: 16})
+      this.setState({numColumns: 4, cardTotal: 16})
     } else if (size === 'md') {
       this.setState({numColumns: 5, cardTotal: 20})
     } else {
@@ -206,7 +206,7 @@ export default class App extends React.Component {
     if (this.state.gameDeck) {
       return (
         <div className="App">
-          <Nav />
+          <Nav newGame={this.handleNewGame}/>
           <CardContainer pokemon={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
         </div>
       )
