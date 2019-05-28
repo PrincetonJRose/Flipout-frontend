@@ -241,7 +241,7 @@ export default class App extends React.Component {
     if (this.state.gameDeck) {
       return (
         <div className="App">
-          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks}/>
+          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo}/>
           <br></br>
           <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
         </div>
