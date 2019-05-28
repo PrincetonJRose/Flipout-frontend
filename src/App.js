@@ -17,6 +17,7 @@ export default class App extends React.Component {
       compare: [],
       gameDeck: [],
       users: [],
+      current_user: {},
       theme: 'pokemon',
       cardBacks: ["../images/darkPokeBall.png", "../images/lightPokeBall.png"],
       cardBack: null,
