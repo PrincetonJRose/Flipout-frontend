@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import { Icon, Menu, Grid, Modal, Button, Header, Image, Form } from 'semantic-ui-react'
 
-class Nav extends Component {
+export default class Nav extends Component {
   state = {}
+  
 
   handleChange = (e, { value }) => this.setState({ value })
+
   render() {
     const { value } = this.state
     return (
@@ -21,26 +23,39 @@ class Nav extends Component {
                   <Header>Select A Board Size</Header>
                   <Form onSubmit={() => this.props.newGame(this.state.value)}>
                     <Form.Group inline>
-                     <label>Size</label>
-                     <Form.Radio
-                       label='4x4'
-                       value='sm'
-                       checked={value === 'sm'}
-                       onChange={this.handleChange}
-                     />
-                     <Form.Radio
-                       label='4x5'
-                       value='md'
-                       checked={value === 'md'}
-                       onChange={this.handleChange}
-                     />
-                     <Form.Radio
-                       label='4x6'
-                       value='lg'
-                       checked={value === 'lg'}
-                       onChange={this.handleChange}
-                     />
-                   </Form.Group>
+                      <label>Size:</label>
+                      <Form.Radio
+                        label='4x4'
+                        value='sm'
+                        checked={value === 'sm'}
+                        onChange={this.handleChange}
+                      />
+                      <Form.Radio
+                        label='4x5'
+                        value='md'
+                        checked={value === 'md'}
+                        onChange={this.handleChange}
+                      />
+                      <Form.Radio
+                        label='4x6'
+                        value='lg'
+                        checked={value === 'lg'}
+                        onChange={this.handleChange}
+                      />
+                    </Form.Group>
+                    {/* <Form.Group inline>
+                      <label>Card Background:</label>
+                      {this.props.cardBacks.map( cardBack => {
+                        return (
+                          <Form.Radio
+                            label={<Image wrapped size='small' src={cardBack} />}
+                            value={<Image wrapped size='small' src={cardBack} />}
+                            checked={value === cardBack}
+                            onChange={this.handleChange}
+                          />
+                        )
+                      })}
+                    </Form.Group> */}
                     <Form.Button type='submit'>Create Game!</Form.Button>
                   </Form>
                 </Modal.Description>
@@ -62,5 +77,3 @@ class Nav extends Component {
     )
   }
 }
-
-export default Nav

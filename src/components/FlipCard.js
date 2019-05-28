@@ -15,12 +15,13 @@ export default class FlipCard extends Component {
   }
 
   render () {
+    console.log(this.props.cardBack)
     return (
       <Container>
         <div className="flip-card">
           <ReactCardFlip isFlipped={this.props.card.isFlipped} flipDirection="horizontal">
             <div className="flip-card-front" onClick={this.handleClick} key="front">
-              <Image src='../images/lightPokeBall.png' size='small' />
+              <Image src={"../images/lightPokeBall.png"} size='small' />
             </div>
             <div className="flip-card-back" onClick={this.handleClick} key="back">
               <Image src={this.props.card.img_url} wrapped />

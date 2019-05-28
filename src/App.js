@@ -11,39 +11,17 @@ export default class App extends React.Component {
       themes: [],
       turnOver: 0,
       numColumns: 4,
+      numRows: 4,
       cardTotal: 16,
       compare: [],
       gameDeck: [],
       users: [],
       theme: 'pokemon',
+      cardBacks: ["../images/darkPokeBall.png", "../images/lightPokeBall.png"],
+      misses: 0,
+      combo: 0,
+      turns: 0,
     }
-  }
-
-  handleNewGame = (size) => {
-    if (size === 'sm') {
-      this.setState({cardTotal: 16})
-    } else if (size === 'md') {
-      this.setState({numColumns: 5, cardTotal: 20})
-    } else {
-      this.setState({numColumns: 6, cardTotal: 24})
-    }
-    fetch(localURL + `themes`)
-    .then(res => res.json())
-    .then(themeData => {
-      let addFlipped = themeData.map( theme => {
-        return {...theme, isFlipped: false}
-      })
-      let addMatched = addFlipped.map( theme => {
-        return {...theme, isMatched: false}
-      })
-      this.setState({ themes: addMatched })
-    })
-    fetch(localURL + `users`)
-    .then(res => res.json())
-    .then(userData => {
-      this.setState({ users: userData })
-      this.generateBoard()
-    })
   }
 
   componentDidMount() {
@@ -56,25 +34,55 @@ export default class App extends React.Component {
       let addMatched = addFlipped.map( theme => {
         return {...theme, isMatched: false}
       })
-      this.setState({ themes: addMatched })
+      this.setState({
+        themes: addMatched,
+      })
     })
     fetch(localURL + `users`)
     .then(res => res.json())
     .then(userData => this.setState({ users: userData }))
   }
+  
+  handleNewGame = (size) => {
+    if (size === 'sm') {
+      this.setState({
+        numColumns: 4,
+        numRows: 4,
+        cardTotal: 16,
+      })
+    } else if (size === 'md') {
+      this.setState({
+        numColumns: 5,
+        numRows: 4,
+        cardTotal: 20,
+      })
+    } else {
+      this.setState({
+        numColumns: 6,
+        numRows: 4,
+        cardTotal: 24,
+      })
+    }
+    fetch(localURL + `themes`)
+    .then(res => res.json())
+    .then(themeData => {
+      this.generateBoard()
+    })
+  }
+
 
   checkTurnOver =()=> {
     if (this.state.turnOver < 2) {
       if (this.state.turnOver + 1 === 2) {
         this.setState({ turnOver: this.state.turnOver + 1 })
-        setTimeout( this.resetTurnOver, 1300 )
+        setTimeout( this.resetTurnOver, 1100 )
       }
       this.setState({
         turnOver: this.state.turnOver + 1
       })
     }
     if (this.state.turnOver === 2) {
-      setTimeout( this.resetTurnOver, 1300 )
+      setTimeout( this.resetTurnOver, 1100 )
     }
   }
 
@@ -129,9 +137,14 @@ export default class App extends React.Component {
       this.setState({
         gameDeck: match,
         compare: [],
+        turns: this.state.turns + 1,
       })
     } else if (compare.length === 2 && compare[0].id !== compare[1].id) {
-      this.setState({ compare: [] })
+      this.setState({
+        compare: [],
+        misses: this.state.misses + 1,
+        turns: this.state.turns + 1,
+      })
     }
     let count = 0
     this.state.gameDeck.map( card => {
@@ -141,7 +154,7 @@ export default class App extends React.Component {
     })
     if (count === this.state.gameDeck.length) {
       // this.gameWin()
-      setInterval(this.gameReset(), 8000)
+      setTimeout(this.gameReset(), 8000)
     }
   }
 
@@ -154,6 +167,9 @@ export default class App extends React.Component {
     this.setState({
       themes: reset,
       gameDeck: [],
+      misses: 0,
+      combo: 0,
+      turns: 0,
     })
     this.generateBoard()
   }
@@ -204,7 +220,7 @@ export default class App extends React.Component {
       return card
     })
     this.setState({ gameDeck: showAll })
-    setInterval( this.hideAllCards(), 8000 )
+    setTimeout( this.hideAllCards(), 8000 )
   }
 
   hideAllCards =()=> {
@@ -219,8 +235,9 @@ export default class App extends React.Component {
     if (this.state.gameDeck) {
       return (
         <div className="App">
-          <Nav newGame={this.handleNewGame}/>
-          <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns}/>
+          <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks}/>
+          <br></br>
+          <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBacks={this.cardBacks}/>
         </div>
       )
     } else {
