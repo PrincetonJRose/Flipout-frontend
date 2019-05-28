@@ -25,7 +25,7 @@ export default class CardContainer extends Component {
           {
             this.props.gameDeck.map(card => (
               <Grid.Column>
-                <FlipCard card={card} flipCard={this.props.flipCard} turnOver={this.props.turnOver}/>
+                <FlipCard card={card} flipCard={this.props.flipCard} turnOver={this.props.turnOver} cardBack={this.props.cardBack}/>
               </Grid.Column>
             ))
           }

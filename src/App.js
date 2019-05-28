@@ -18,6 +18,7 @@ export default class App extends React.Component {
       users: [],
       theme: 'pokemon',
       cardBacks: ["../images/darkPokeBall.png", "../images/lightPokeBall.png"],
+      cardBack: null,
       misses: 0,
       combo: 0,
       turns: 0,
@@ -43,7 +44,7 @@ export default class App extends React.Component {
     .then(userData => this.setState({ users: userData }))
   }
   
-  handleNewGame = (size) => {
+  handleNewGame = (size, cardBack) => {
     if (size === 'sm') {
       this.setState({
         numColumns: 4,
@@ -66,6 +67,9 @@ export default class App extends React.Component {
     fetch(localURL + `themes`)
     .then(res => res.json())
     .then(themeData => {
+      this.setState({
+        cardBack: this.state.cardBacks[Math.round(Math.random())],
+      })
       this.generateBoard()
     })
   }
@@ -210,7 +214,9 @@ export default class App extends React.Component {
       indexPosition += 1
       return {...card, index: indexPosition}
     })
-    this.setState({ gameDeck: addIndex })
+    this.setState({
+      gameDeck: addIndex,
+    })
     this.showAllCards()
   }
 
@@ -237,7 +243,7 @@ export default class App extends React.Component {
         <div className="App">
           <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks}/>
           <br></br>
-          <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBacks={this.cardBacks}/>
+          <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
         </div>
       )
     } else {

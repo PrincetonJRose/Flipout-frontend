@@ -5,10 +5,10 @@ export default class Nav extends Component {
   state = {}
   
 
-  handleChange = (e, { value }) => this.setState({ value })
+  handleChange = (e, { value, cardBack }) => this.setState({ value, cardBack })
 
   render() {
-    const { value } = this.state
+    const { value, cardBack } = this.state
     return (
         <Grid.Column centered>
         <Menu compact icon='labeled'>
@@ -21,7 +21,7 @@ export default class Nav extends Component {
                 <Image wrapped size='medium' src='https://scontent-sin6-2.cdninstagram.com/vp/791c65b62980199a42228a557f194242/5D19610D/t51.2885-15/e35/46099340_103715900616147_6366816526032884159_n.jpg?_nc_ht=scontent-sin6-2.cdninstagram.com' />
                 <Modal.Description>
                   <Header>Select A Board Size</Header>
-                  <Form onSubmit={() => this.props.newGame(this.state.value)}>
+                  <Form onSubmit={() => this.props.newGame(this.state.value, this.state.cardBack)}>
                     <Form.Group inline>
                       <label>Size:</label>
                       <Form.Radio
@@ -45,12 +45,12 @@ export default class Nav extends Component {
                     </Form.Group>
                     {/* <Form.Group inline>
                       <label>Card Background:</label>
-                      {this.props.cardBacks.map( cardBack => {
+                      {this.props.cardBacks.map( cardPic => {
                         return (
                           <Form.Radio
-                            label={<Image wrapped size='small' src={cardBack} />}
-                            value={<Image wrapped size='small' src={cardBack} />}
-                            checked={value === cardBack}
+                            label={cardPic}
+                            value={cardPic}
+                            checked={value === cardPic
                             onChange={this.handleChange}
                           />
                         )
