@@ -67,7 +67,7 @@ export default class Nav extends Component {
             <Icon name='chart line' />
             <br></br>
             <Modal id='newGameModal' trigger={<Button basic color='orange'>Statistics</Button>} centered={false} closeIcon>
-              <Modal.Header>{this.props.name}'s Statistics</Modal.Header>
+              <Modal.Header>{this.props.currentUser.username}'s Statistics</Modal.Header>
               <Modal.Content image>
                 <Image wrapped size='medium' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvwG149uDub3muJZQGjqtenTmPqp0hM0GMgokFB6t-8jI5tQFDFQ' />
                 <Table basic='very' celled collapsing>

@@ -42,7 +42,7 @@ export default class App extends React.Component {
         themes: addMatched,
       })
     })
-    
+
     fetch(localURL + `users`)
     .catch(errors => console.log(errors))
     .then(res => res.json())
@@ -244,17 +244,18 @@ export default class App extends React.Component {
   }
 
   loginSubmit =(e, name)=> {
-    let findUser = this.state.users.map( user => {
+    let findUser
+    this.state.users.map( user => {
       if (name.toLowerCase() === user.username.toLowerCase()){
-        return user
+        findUser = user
       }
     })
-    if (findUser.length > 0) {
+    if (findUser) {
       this.setState({
         currentUser: findUser[0]
       })
     } else {
-      let create = confirm(`User '${name}' was not found. Would you like to create a new profile instead?`)
+      let create = window.confirm(`User '${name}' was not found. Would you like to create a new profile instead?`)
       if (create) {
         fetch(localURL + `users`, {
           method: "POST",
@@ -262,11 +263,17 @@ export default class App extends React.Component {
             "Content-Type": "application/json",
             Accept: "application/json"
           },
-          body: JSON.stringify({
-            username: name
-          })
+          body: JSON.stringify({ username: name })
         })
         .catch(errors => console.log(errors))
+        .then(res => res.json())
+        .then(userData => {
+          this.setState({
+            currentUser: userData
+          })
+        })
+        fetch(localURL + `user_stats`)
+
       }
     }
     e.target.reset()
@@ -281,7 +288,7 @@ export default class App extends React.Component {
       if (this.state.gameDeck) {
         return (
           <div className="App">
-            <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo} name={this.state.userName} logout={this.logout}/>
+            <Nav newGame={this.handleNewGame} cardBacks={this.state.cardBacks} misses={this.state.misses} combo={this.state.combo} currentUser={this.state.currentUser} logout={this.logout}/>
             <br></br>
             <CardContainer gameDeck={this.state.gameDeck} flipCard={this.flipCard} turnOver={this.state.turnOver} numColumns={this.state.numColumns} numRows={this.state.numRows} cardBack={this.state.cardBack}/>
           </div>

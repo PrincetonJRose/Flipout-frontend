@@ -15,7 +15,7 @@ class LoginForm extends React.Component {
           </Header>
           <Form onSubmit={(e) => this.props.loginSubmit(e, this.state.name)} size='large'>
             <Segment stacked>
-              <Form.Input onChange={this.handleChange} fluid icon='user' iconPosition='left' placeholder='Username' />
+              <Form.Input onChange={this.handleChange} fluid icon='user' iconPosition='left' placeholder='Username' required/>
               <Button type='submit' color='teal' fluid size='large'>
                 Login
               </Button>
