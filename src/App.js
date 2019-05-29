@@ -23,6 +23,7 @@ export default class App extends React.Component {
       cardBack: null,
       misses: 0,
       combo: 0,
+      comboChain: 0,
       turns: 0,
     }
   }
@@ -145,18 +146,26 @@ export default class App extends React.Component {
           return card
         }
       })
+      let chain = this.state.comboChain
+      if (this.state.combo > chain || this.state.combo > 1) {
+        chain += 1
+      }
       this.setState({
         gameDeck: match,
         compare: [],
         turns: this.state.turns + 1,
+        combo: this.state.combo +1,
+        comboChain: chain
       })
     } else if (compare.length === 2 && compare[0].id !== compare[1].id) {
       this.setState({
         compare: [],
         misses: this.state.misses + 1,
         turns: this.state.turns + 1,
+        combo: 0,
       })
     }
+
     let count = 0
     this.state.gameDeck.map( card => {
       if (card.isMatched) {
@@ -164,10 +173,23 @@ export default class App extends React.Component {
       }
     })
     if (count === this.state.gameDeck.length) {
-      // this.gameWin()
-      
-      setTimeout(this.gameReset(), 8000)
+      this.gameWin()
     }
+  }
+  
+  gameWin =()=> {
+    let user = this.state.currentUser
+    if (this.state.misses < user.user_stats[0].score || user.user_stats[0].score === 0) {
+      user.user_stats[0].score = this.state.misses
+    }
+    if (this.state.comboChain > user.user_stats[1].score) {
+      user.user_stats[1].score = this.state.comboChain
+    }
+    user.user_stats[3].score += 1
+    this.setState({
+          currentUser: user
+        })
+    setTimeout(this.gameReset(), 8000)
   }
 
   gameReset =()=> {
