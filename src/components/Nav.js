@@ -87,7 +87,7 @@ export default class Nav extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>0</Table.Cell>
+                      <Table.Cell>{this.props.currentUser.user_stats[3].score}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell>
@@ -98,7 +98,7 @@ export default class Nav extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.misses}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser.user_stats[0].score}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell>
@@ -109,7 +109,7 @@ export default class Nav extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.combo}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser.user_stats[1].score}</Table.Cell>
                     </Table.Row>
                   </Table.Body>
                 </Table>

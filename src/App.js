@@ -165,6 +165,7 @@ export default class App extends React.Component {
     })
     if (count === this.state.gameDeck.length) {
       // this.gameWin()
+      
       setTimeout(this.gameReset(), 8000)
     }
   }
@@ -252,7 +253,7 @@ export default class App extends React.Component {
     })
     if (findUser) {
       this.setState({
-        currentUser: findUser[0]
+        currentUser: findUser
       })
     } else {
       let create = window.confirm(`User '${name}' was not found. Would you like to create a new profile instead?`)
@@ -272,13 +273,11 @@ export default class App extends React.Component {
             currentUser: userData
           })
         })
-        fetch(localURL + `user_stats`)
-
       }
     }
     e.target.reset()
   }
-
+  
   logout =()=> {
     this.setState({ currentUser: {}, })
   }
